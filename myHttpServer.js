@@ -18,18 +18,40 @@ const server=http.createServer((req,res) => {
        
     }
     else if(req.url.slice(0,6)=="/input"){
+        let url123=req.url.split("?");//let只做用于大括号内
+        let obQuery=querystring.parse(url123[1])
+        if (obQuery.submit1=='Save'){ 
+            //2. 创建并写入文件  
+            fs.writeFile('./test.txt',obQuery.name1, (err)=>{  
+                if(err){  
+                    console.log(err)  
+                    return  
+                }  
+                console.log('创建写入文件成功')  
+            })
+        }
+        else if (obQuery.submit1=='AppendSave'){
+            //2. 创建并写入文件  
+            fs.appendFile('./test.txt',obQuery.name1, (err)=>{  
+                if(err){  
+                    console.log(err)  
+                    return  
+                }  
+                console.log('创建写入文件成功')  
+            })
+
+        }
         res.statusCode=200;
-        let url1=req.url.split("?");//let只做用于大括号内
-        //let urlquery=url1[1].split("&");
-        //let firstQuery=urlquery[0].split("=");
-        //let secondQuery=urlquery[1].split("=");
-        let obQuery=querystring.parse(url1[1])
         res.setHeader('Content-Type','text/html');
-        //res.write(firstQuery[1]+"<br>")
-        //res.write(secondQuery[1]+"<br>")
-        res.write(obQuery.name+"<br>");
-        res.write(obQuery.submit1+"<br>");
-        res.end("submit success!")
+        fs.readFile("form1.html",(err,fsData)=>{
+            if(err){
+                console.log("Read file error.")
+                throw err
+            }
+            //console.log("1")
+            res.write(fsData)
+            res.end()
+        })
     }
     else if(req.url=="/favicon.ico"){
         res.statusCode=200;
