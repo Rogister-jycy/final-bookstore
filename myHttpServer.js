@@ -1,81 +1,135 @@
-const http=require('http')
-const fs=require('fs');
-const querystring=require('querystring')
-var i=0;
-const server=http.createServer((req,res) => {
-    if(req.url=='/'){
-        res.statusCode=200;
-        res.setHeader('Content-Type','text/html');
-        fs.readFile("form1.html",(err,fsData)=>{
-            if(err){
-                console.log("Read file error.")
-                throw err
-            }
-            //console.log("1")
-            res.write(fsData)
-            res.end()
-        })
-       
-    }
-    else if(req.url.slice(0,6)=="/input"){
-        let url123=req.url.split("?");//let只做用于大括号内
-        let obQuery=querystring.parse(url123[1])
-        if (obQuery.submit1=='Save'){ 
-            //2. 创建并写入文件  
-            fs.writeFile('./test.txt',obQuery.name1, (err)=>{  
-                if(err){  
-                    console.log(err)  
-                    return  
-                }  
-                console.log('创建写入文件成功')  
-            })
-        }
-        else if (obQuery.submit1=='AppendSave'){
-            //2. 创建并写入文件  
-            fs.appendFile('./test.txt',obQuery.name1, (err)=>{  
-                if(err){  
-                    console.log(err)  
-                    return  
-                }  
-                console.log('创建写入文件成功')  
-            })
+const http = require('http')
+const fs = require('fs');
 
+const querystring = require('querystring')
+const express = require('express')
+const app = express()
+const insertDB = require('./MongodbLib');
+app.use(express.static(__dirname + '/longo'));
+const ejs = require('ejs')
+app.set('view engine', "ejs");
+app.set("bookStore", "./bookStore")
+app.set("admin", "./admin")
+app.set("buy", "./buy")
+var email = '';
+var password = '';
+var submit = '';
+
+doc = {};
+
+
+
+app.get('/input', (req, res, next) => {
+    console.log(req.query.password)
+    console.log(req.query.email)
+    email = req.query.email;
+    password = req.query.password;
+    submit = req.query.submit;
+    doc[email] = password;
+    console.log(email.length)
+    console.log(password.length)
+
+    if (email.length != 0 && password.length != 0) next()
+    else res.render(__dirname + "/bookStore/bookstore.ejs", { passage: "用户名和密码都不能为空，请重新输入" })
+})
+app.get('/input', (req, res, next) => {
+    if (submit == "注册") {
+        insertDB.myfind('bookstore', 'user', { email: email, password: password }, (docs) => {
+            if (docs.length == 0) {
+                insertDB.myinsert('bookstore', 'user', [{ email: email, password: password }]);
+                res.render(__dirname + "/longo/index.ejs", { passage: "已注册完成，请重新登录" })
+
+            }
+            else {
+                loginFlag = 100;
+                console.log("注册失败")
+                res.render(__dirname + "/longo/index.ejs", { passage: "用户名已注册！请重新输入" })
+            }
+        });
+    }
+    else if (submit == "登录") {
+        insertDB.myfind('bookstore', 'user', { name: email, password: password }, (docs) => {
+            if (docs.length == 0) {
+                res.render(__dirname + "/bookStore/bookstore.ejs")
+            }
+            else {
+                //代表成功
+                res.render(__dirname + "/bookStore/bookstore.ejs")
+            }
+        });
+    }
+    else if (submit == "管理员") {
+        insertDB.myfind('bookstore', 'admin', { name: email, password: password }, (docs) => {
+            if (docs.length == 0) {
+                console.log(email, password)
+                res.render(__dirname + "/longo/index.ejs", { passage: "这不是管理员账号，请确认你的身份" })
+            }
+            else {
+                res.render(__dirname + "/admin/add.ejs")
+            }
+        });
+    }
+
+})
+app.get('/input', (req, res) => {
+    res.send("")
+})
+
+
+////////-------------------------------------------------------图书搜索模块-------------------//////
+var book = '';
+app.get('/search', (req, res, next) => {
+    console.log(req.query.search)
+    book = req.query.search;
+    insertDB.myfind('bookstore', 'book', { name: book }, (docs) => {
+        if (docs.length == 0) {
+
+            res.render(__dirname + "/bookStore/bookstore3.ejs")
         }
-        res.statusCode=200;
-        res.setHeader('Content-Type','text/html');
-        fs.readFile("form1.html",(err,fsData)=>{
-            if(err){
-                console.log("Read file error.")
-                throw err
-            }
-            //console.log("1")
-            res.write(fsData)
-            res.end()
-        })
-    }
-    else if(req.url=="/favicon.ico"){
-        res.statusCode=200;
-        res.setHeader('Content-Type','text/img');
-        fs.readFile("favicon.ico",(err,fsData)=>{
-            if(err){
-                console.log("Read file error.")
-                throw err
-            }
-            //console.log("1")
-            res.write(fsData)
-            res.end()
-        })
-        //console.log("2")
-        
-    }
-    else{
-        res.statusCode=200;
-        res.setHeader('Content-Type','text/html');
-        i++;
-        res.write('<h1>This is Yin. You are the '+i+'th visitor</h1>');
-   
-    res.end();
-    //console.log("this is my consolelog");
-}
-});
-server.listen(3000);
+        else {
+            res.render(__dirname + "/bookStore/bookstore4.ejs")
+        }
+    })
+
+
+})
+
+
+
+//////////-----------------------图书添加模块-----------------/////////////////////
+
+var bookname = '';
+var bookmoney = '';
+var bookmessage = '';
+var bookkind = '';
+app.get('/add', (req, res, next) => {
+    console.log(req.query.name)
+    console.log(req.query.money)
+    console.log(req.query.message)
+    console.log(req.query.kind)
+    bookname = req.query.name;
+    bookmoney = req.query.money;
+    bookmessage = req.query.message;
+    bookkind = req.query.kind;
+    insertDB.myinsert('bookstore', 'book', [{ name: bookname, money: bookmoney, message: bookmessage, kind: bookkind }]);
+
+
+    res.render(__dirname + "/admin/add.ejs")
+})
+////////////////----------------图书购买模块------------------------//////////
+
+
+var buybook = '';
+app.get('/book', (req, res, next) => {
+    console.log(req.query.book)
+    buybook = req.query.book
+    insertDB.myinsert('bookstore', 'bookbuymessage', [{ name: buybook }]);
+
+    res.render(__dirname + "/bookStore/bookstore.ejs")
+
+})
+///////////////////-----------------/////////////////////////////////////
+app.listen(3000)
+
+
+

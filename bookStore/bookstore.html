@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>bookStore</title>
+	<style type="text/css">
+		.clear {
+			clear: both;
+		}
+
+		#top_left {
+			width: 300px;
+			float: left;
+		}
+
+		#top_right {
+			width: 400px;
+			float: right;
+			margin-top: 15px;
+			font-size: 13px;
+		}
+
+		#top_right img {
+			margin-bottom: -5px;
+		}
+
+		#top_right a {
+			text-decoration: none;
+			color: rgb(12, 63, 233);
+		}
+
+		#top_right a:hover {
+			color: #909;
+		}
+
+		#menu {
+			background-color: hsl(197, 81%, 58%);
+			border-top: 0px solid #3f9de9;
+			padding: 10px 0px;
+			text-align: center;
+		}
+
+		#menu a {
+			margin: 0 8px;
+			color: #fff;
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 15px;
+		}
+
+		#menu a:hover {
+			color: rgb(236, 234, 234);
+		}
+
+		#menu .all {
+			color: rgb(49, 241, 241)
+		}
+
+		#search {
+			background-color: #f3f3de;
+			padding: 7px 0;
+			text-align: right;
+
+		}
+
+		#search input[type='image'] {
+			/* margin-top: 5px; */
+			margin-right: 250px;
+			margin-bottom: -4px;
+		}
+
+		#search input[type='text'] {
+			height: 16px;
+			border: 1px solid rgb(202, 198, 198);
+		}
+
+		/*-------------------------------------------------------*/
+
+		#content {
+			width: 900px;
+			margin: 8px auto 15px;
+			/*auto div居中*/
+		}
+
+		#content_top {
+			text-align: right;
+			font-size: 13px;
+		}
+
+		#content_bottom {
+			border: 1px solid rgb(192, 240, 243);
+			background-color: #b4f1f3;
+			padding: 10px 15px;
+		}
+
+		#content_bottom h1 {
+			font-size: 15px;
+			display: inline;
+		}
+
+		#content_bottom span {
+			font-size: 13px;
+		}
+
+		#productlist_img img {
+			width: 100%;
+		}
+
+		.book {
+			float: left;
+			width: 25%;
+			text-align: center;
+			padding: 10px 0px;
+		}
+
+		.bookimg img {
+			width: 130px;
+			height: 196px;
+		}
+
+		#jumpPage {
+			text-align: center;
+			margin: 10px;
+		}
+
+		#jumpPage a {
+			padding: 2px 6px;
+			border: 1px solid #9AAFE5;
+			text-decoration: none;
+			color: #9AAFE5;
+		}
+
+		#jumpPage a:hover {
+			color: #2B66A5;
+			border: 1px solid #2B66A5;
+		}
+
+		.current {
+			background-color: blue;
+		}
+
+		/*-------------------------------------------------------*/
+
+		#bottom {
+			background-color: #ffffff;
+			height: 60px;
+			padding: 10px 0px;
+		}
+
+		#bottom_left {
+			width: 400px;
+			float: left;
+			margin-left: 200px;
+		}
+
+		#bottom_right {
+			width: 500px;
+			float: left;
+			line-height: 100px;
+			/*行高*/
+		}
+
+		#image {
+			width: 200px;
+			height: 100px;
+
+		}
+	</style>
+</head>
+
+<body>
+	<div id="page">
+		<div id="top">
+			<div id="top_left">
+				<img alt="" id="image" src="/images/logo_large.png">
+			</div>
+			<div id="top_right">
+				<img alt="" src="/images/cart.gif">
+				<a href="#">购物车</a>|
+				<a href="#">帮助中心</a>|
+				<a href="">我的账户</a>|
+				<a href="">新用户注册</a>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div id="menu">
+			<a href="#">文学</a>
+			<a href="#">生活</a>
+			<a href="#">计算机</a>
+			<a href="#">外语</a>
+			<a href="#">经管</a>
+			<a href="#">励志</a>
+			<a href="#">社科</a>
+			<a href="#">学术</a>
+			<a href="#">少儿</a>
+			<a href="#">艺术</a>
+			<a href="#">原版</a>
+			<a href="#">科技</a>
+			<a href="#">考试</a>
+			<a href="#">生活百科</a>
+			<a class="all" href="#">全部目录商品</a>
+		</div>
+
+		<form action="/search" method="get">
+			<div id="search">
+				<span>查询书本</span>
+				<input type="text" name="search" id="button1" />
+				<input type="submit" name="submit" value="搜素">
+			</div>
+		</form>
+
+
+		<div id="content">
+			<div id="content_top">
+				<span>首页 </span>
+			</div>
+			<div id="content_bottom">
+				<h1>商品目录</h1>
+				<hr />
+				<h1>计算机类</h1>
+				<span>共100种商品</span>
+				<hr />
+				<div id="productlist">
+					<div id="productlist_img">
+						<img alt="" src="/images/productlist.gif" width="100%">
+					</div>
+					<div id="booklist">
+						<div class="book">
+							<div class="bookimg">
+								<img alt="" src="/images/101.jpg" onclick="add(35)">
+							</div>
+							<div class="bookIntr">
+								<span>书名：摄影教材</span><br />
+								<span>售价：35</span>
+								<form action="/add" method="get">
+									<input type="submit" value="submit" name="submit">
+								</form>
+							</div>
+						</div>
+						<div class="book">
+							<div class="bookimg">
+								<img alt="" src="/images/102.jpg" onclick="add(50)">
+							</div>
+							<div class="bookIntr">
+								<span>书名：java2入门经典</span><br />
+								<span>售价：50</span>
+							</div>
+						</div>
+						<div class="book">
+							<div class="bookimg">
+								<img alt="" src="/images/103.jpg" onclick="add(20)">
+							</div>
+							<div class="bookIntr">
+								<span>书名：中国自助游</span><br />
+								<span>售价：20</span>
+							</div>
+						</div>
+						<div class="book">
+							<div class="bookimg">
+								<img alt="" src="/images/104.jpg" onclick="add(25)">
+							</div>
+							<div class="bookIntr">
+								<span>书名：欧洲</span><br />
+								<span>售价：25</span>
+							</div>
+						</div>
+						<div class="book">
+							<div class="bookimg">
+								<img alt="" src="/images/105.jpg" width="102" onclick="add(40)">
+							</div>
+							<div class="bookIntr">
+								<span>书名：培养男孩</span><br />
+								<span>售价：40</span>
+							</div>
+						</div>
+						<div class="book">
+							<div class="bookimg">
+								<img alt="" src="/images/106.jpg" width="102" onclick="add(45)">
+							</div>
+							<div class="bookIntr">
+								<span>书名：别做正常的傻瓜</span><br />
+								<span>售价：45</span>
+							</div>
+						</div>
+						<div class="book">
+							<div class="bookimg">
+								<img alt="" src="/images/107.jpg" onclick="add(60)">
+							</div>
+							<div class="bookIntr">
+								<span>书名：杜拉拉升职记</span><br />
+								<span>售价：60</span>
+							</div>
+						</div>
+						<div class="book">
+							<div>
+								<img alt="" src="/images/108.jpg" width="130" onclick="add(30)">
+							</div>
+							<div>
+								<span>书名:搭地铁玩上海</span>
+								<br>
+								<span>售价:30</span>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div id="jumpPage">
+							<a href="#">上一页</a>
+							<a class="current" href="#">1</a>
+							<a href="#">2</a>
+							<a href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">7</a>
+							<a href="#">下一页</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="bottom">
+			<div id="bottom_left">
+				<img id="image" alt="" src="/images/logo_large.png">
+			</div>
+			<div id="bottom_right">
+				<span>网上书城，欢迎您的到来</span>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script> type = "text/javascript"
+
+	function add(a) {
+		alert("你确定要添加这本书吗,他的价格是" + a)
+	}
+
+</script>
+
+</html>
