@@ -1,6 +1,5 @@
 const http = require('http')
 const fs = require('fs');
-
 const querystring = require('querystring')
 const express = require('express')
 const app = express()
@@ -50,7 +49,7 @@ app.get('/input', (req, res, next) => {
     else if (submit == "登录") {
         insertDB.myfind('bookstore', 'user', { name: email, password: password }, (docs) => {
             if (docs.length == 0) {
-                res.render(__dirname + "/bookStore/bookstore.ejs")
+                res.render(__dirname + "/longo/index.ejs", { passage: "用户名密码错误，请重新输入" })
             }
             else {
                 //代表成功
@@ -129,7 +128,7 @@ app.get('/book', (req, res, next) => {
 
 })
 ///////////////////-----------------/////////////////////////////////////
-app.listen(3000)
+app.listen(4008)
 
 
 
