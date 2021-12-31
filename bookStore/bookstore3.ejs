@@ -214,7 +214,9 @@
 
 		<div id="content">
 			<div id="content_top">
-				<span>首页 </span>
+				<form action="/back" method="get">
+					<input type="submit" name="back" value="返回首页">
+					</form>
 			</div>
 			<div id="content_bottom">
 				<h1>商品目录</h1>
@@ -222,111 +224,28 @@
 				<h1>计算机类</h1>
 				<span>共100种商品</span>
 				<hr />
-				<div id="productlist">
-					<div id="productlist_img">
-						<img alt="" src="/images/productlist.gif" width="100%">
-					</div>
-					<div id="booklist">
-						<div class="book">
-							<div class="bookimg">
-								<img alt="" src="/images/101.jpg">
-							</div>
-							<div class="bookIntr">
-								<form action="/book" method="get">
-									<input type="submit" value="摄影教材" name="book" width="40px" height="25px"
-										onclick="buy('摄影教材','35')">
-								</form>
-								<span>售价：35</span>
-							</div>
-						</div>
-						<div class="book">
-							<div class="bookimg">
-								<img alt="" src="/images/102.jpg">
-							</div>
-							<div class="bookIntr">
-								<form action="/book" method="get">
-									<input type="submit" value="java2入门经典" name="book" width="40px" height="25px"
-										onclick="buy('java2入门经典','50')">
-								</form>
-								<span>售价：50</span>
-							</div>
-						</div>
-						<div class="book">
-							<div class="bookimg">
-								<img alt="" src="/images/103.jpg">
-							</div>
-							<div class="bookIntr">
-								<form action="/book" method="get">
-									<input type="submit" value="中国自助游" name="book" width="40px" height="25px"
-										onclick="buy('中国自助游','20')">
-								</form>
-								<span>售价：20</span>
+				<table class="table text-white">
+					<thead>
+						<tr>
+							<th scope="col">书名</th>
+							<th scope="col">价格</th>
+							<th scope="col">书籍信息</th>
+							<th scope="col">书籍种类</th>
+						</tr>
+					</thead>
+					<tbody class="text-white">
+						<tr>
+							<% for ( var i=0; i< searchresult.length; i++ ){ %>
+								<th scope="col"><%- searchresult[i].name%></th>
+								<th scope="col"><%- searchresult[i].money%></th>
+								<th scope="col"><%- searchresult[i].message%></th>
+								<th scope="col"><%- searchresult[i].kind%></th>
 
-							</div>
-						</div>
-						<div class="book">
-							<div class="bookimg">
-								<img alt="" src="/images/104.jpg">
-							</div>
-							<div class="bookIntr">
-								<form action="/book" method="get">
-									<input type="submit" value="欧洲" name="book" width="40px" height="25px"
-										onclick="buy('欧洲','25')">
-								</form>
-								<span>售价：25</span>
-
-							</div>
-						</div>
-						<div class="book">
-							<div class="bookimg">
-								<img alt="" src="/images/105.jpg" width="102">
-							</div>
-							<div class="bookIntr">
-								<form action="/book" method="get">
-									<input type="submit" value="培养男孩" name="book" width="40px" height="25px"
-										onclick="buy('培养男孩','40')">
-								</form>
-								<span>售价：40</span>
-							</div>
-						</div>
-						<div class="book">
-							<div class="bookimg">
-								<img alt="" src="/images/106.jpg" width="102">
-							</div>
-							<div class="bookIntr">
-								<span> </span>
-								<form action="/book" method="get">
-									<input type="submit" value="别做正常的傻瓜" name="book" width="40px" height="25px"
-										onclick="buy('别做正常的傻瓜','45')">
-								</form>
-								<span>售价：45</span>
-							</div>
-						</div>
-						<div class="book">
-							<div class="bookimg">
-								<img alt="" src="/images/107.jpg" width="102">
-							</div>
-							<div class="bookIntr">
-								<form action="/book" method="get">
-									<input type="submit" value="杜拉拉升职记" name="book" width="40px" height="25px"
-										onclick="buy('杜拉拉升职记','60')">
-								</form>
-								<span>售价：60</span>
-							</div>
-						</div>
-						<div class="book">
-							<div>
-								<img alt="" src="/images/108.jpg" width="130">
-							</div>
-							<div>
-								<form action="/book" method="get">
-									<input type="submit" value="搭地铁玩上海" name="book" width="40px" height="25px"
-										onclick="buy('搭地铁玩上海','30')">
-								</form>
-								<br>
-								<span>售价:30</span>
-							</div>
-						</div>
+							<% }%>
+						</tr>
+						
+					</tbody>
+				</table>
 						<div class="clear"></div>
 						<div id="jumpPage">
 							<a href="#">上一页</a>

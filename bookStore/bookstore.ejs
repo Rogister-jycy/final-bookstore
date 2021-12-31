@@ -177,7 +177,11 @@
 			</div>
 			<div id="top_right">
 				<img alt="" src="/images/cart.gif">
-				<a href="#">购物车</a>|
+				<form action="/car" method="get">
+					<input type="submit" name="shop" value="购物车">
+					</form>
+				
+		
 				<a href="#">帮助中心</a>|
 				<a href="">我的账户</a>|
 				<a href="">新用户注册</a>
@@ -205,16 +209,17 @@
 		<form action="/search" method="get">
 			<div id="search">
 				<span>查询书本</span>
-				<input type="text" name="search" id="button1" />
-
-				<input type="submit" name="submit" value="搜索">
+				<input type="text" name="search" id="getbook" />
+				<input type="submit" name="submit" value="搜索" >
 			</div>
 		</form>
 
 
 		<div id="content">
 			<div id="content_top">
-				<span>首页 </span>
+				<form action="/back" method="get">
+					<input type="submit" name="back" value="返回首页">
+					</form>
 			</div>
 			<div id="content_bottom">
 				<h1>商品目录</h1>
@@ -359,7 +364,10 @@
 	function buy(a, b) {
 		alert("你确定要购买这本书吗" + "\n" + "他的名字是" + a + "\n" + "他的价格是" + b)
 	}
-
+	
+	function search(a, b,c,d) {
+		alert("您查询的书信息：" + "\n" + "他的名字是" + a + "\n" + "他的价格是" + b +"他的信息是："+c+"他的种类是："+d)
+	}
 </script>
 
 </html>

@@ -1,5 +1,22 @@
 const http = require('http')
 const fs = require('fs');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://172.21.2.236:27017/190110910408')//写学号
+const Userschema = {
+    email: String,
+    password:String
+  };
+const User = mongoose.model('user',Userschema);
+const Admin = mongoose.model('admin',Userschema);
+const Bookschema = {
+    name: String,
+    money:String,
+    message:String,
+    kind:String
+};
+const Book = mongoose.model('book',Bookschema);
+const boss = new Admin({email:"boss",password:"123456"});
+boss.save()
 const querystring = require('querystring')
 const express = require('express')
 const app = express()
@@ -13,7 +30,6 @@ app.set("buy", "./buy")
 var email = '';
 var password = '';
 var submit = '';
-
 doc = {};
 
 
@@ -33,9 +49,9 @@ app.get('/input', (req, res, next) => {
 })
 app.get('/input', (req, res, next) => {
     if (submit == "注册") {
-        insertDB.myfind('bookstore', 'user', { email: email, password: password }, (docs) => {
+        insertDB.myfind('190110910408', 'users', { email: email, password: password }, (docs) => {
             if (docs.length == 0) {
-                insertDB.myinsert('bookstore', 'user', [{ email: email, password: password }]);
+                insertDB.myinsert('190110910408', 'users', [{ email: email, password: password }]);
                 res.render(__dirname + "/longo/index.ejs", { passage: "已注册完成，请重新登录" })
 
             }
@@ -47,7 +63,7 @@ app.get('/input', (req, res, next) => {
         });
     }
     else if (submit == "登录") {
-        insertDB.myfind('bookstore', 'user', { name: email, password: password }, (docs) => {
+        insertDB.myfind('190110910408', 'users', { email: email, password: password }, (docs) => {
             if (docs.length == 0) {
                 res.render(__dirname + "/longo/index.ejs", { passage: "用户名密码错误，请重新输入" })
             }
@@ -58,7 +74,7 @@ app.get('/input', (req, res, next) => {
         });
     }
     else if (submit == "管理员") {
-        insertDB.myfind('bookstore', 'admin', { name: email, password: password }, (docs) => {
+        insertDB.myfind('190110910408', 'admins', { email: email, password: password }, (docs) => {
             if (docs.length == 0) {
                 console.log(email, password)
                 res.render(__dirname + "/longo/index.ejs", { passage: "这不是管理员账号，请确认你的身份" })
@@ -77,22 +93,46 @@ app.get('/input', (req, res) => {
 
 ////////-------------------------------------------------------图书搜索模块-------------------//////
 var book = '';
+
 app.get('/search', (req, res, next) => {
     console.log(req.query.search)
     book = req.query.search;
-    insertDB.myfind('bookstore', 'book', { name: book }, (docs) => {
-        if (docs.length == 0) {
 
-            res.render(__dirname + "/bookStore/bookstore3.ejs")
-        }
-        else {
-            res.render(__dirname + "/bookStore/bookstore4.ejs")
-        }
+	var wherestr = {'name' : book};
+    Book.findOne({"name":book},(err,data)=>{
+        if(err) return console.log(err);
+        res.render(__dirname + "/bookStore/bookstore4.ejs",{
+            searchresult:data,
+            searchname:data.name,
+            searchmoney:data.money,
+            searchmessage:data.message,
+            searchkind:data.kind
+        })
+
     })
+    // Book.find(wherestr, function(err, res){
+    //     if (err) {
+    //         console.log("Error:" + err);
+    //     }
+    //     else {
+    //         x = res;
+    //         console.log("Res:" + res);
+    //         ejs.renderFile(__dirname + "/bookStore/bookstore4.ejs",{searchresult:"哈哈哈"})
+    //     }
+    // })
+
+    // insertDB.myfind('190110910408', 'books', { name: book }, (docs) => {
+    //     if (docs.length == 0) {
+
+    //         res.render(__dirname + "/bookStore/bookstore3.ejs")
+    //     }
+    //     else {
+    //         res.render(__dirname + "/bookStore/bookstore4.ejs")
+    //     }
+    // })
 
 
 })
-
 
 
 //////////-----------------------图书添加模块-----------------/////////////////////
@@ -110,22 +150,32 @@ app.get('/add', (req, res, next) => {
     bookmoney = req.query.money;
     bookmessage = req.query.message;
     bookkind = req.query.kind;
-    insertDB.myinsert('bookstore', 'book', [{ name: bookname, money: bookmoney, message: bookmessage, kind: bookkind }]);
-
-
+    insertDB.myinsert('190110910408', 'books', [{ name: bookname, money: bookmoney, message: bookmessage, kind: bookkind }]);
     res.render(__dirname + "/admin/add.ejs")
 })
 ////////////////----------------图书购买模块------------------------//////////
-
 
 var buybook = '';
 app.get('/book', (req, res, next) => {
     console.log(req.query.book)
     buybook = req.query.book
-    insertDB.myinsert('bookstore', 'bookbuymessage', [{ name: buybook }]);
-
+    insertDB.myinsert('190110910408', 'bookbuymessage', [{ name: buybook }]);
     res.render(__dirname + "/bookStore/bookstore.ejs")
+})
+///////////////////-----------------/////////////////////////////////////
+app.get('/back',(req, res, next) => {
+    res.render(__dirname + "/bookStore/bookstore.ejs")
+})
+////////////////----------------购物车查询模块------------------------//////////
 
+app.get('/car', (req, res, next) => {
+    Book.find({},(err,datas)=>{
+        if(err) return console.log(err);
+        res.render(__dirname + "/bookStore/bookstore3.ejs",{
+            searchresult:datas
+        })
+
+    })
 })
 ///////////////////-----------------/////////////////////////////////////
 app.listen(4008)
