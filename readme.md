@@ -1,8 +1,4 @@
-# nodejs小项目
-
-项目用到的知识笔记都会在这里更新
-
-## 如何开始一个项目
+## 开始项目
 
 创建一个文件夹名为bookstore作为工作目录
 
@@ -69,13 +65,13 @@ show collections
 
 MongoDB下创建bookstore文件夹名
 
-建立book（做为存储书本信息的collection）
+建立books（做为存储书本信息的collection）
 
-建立user（做为存储用户信息的collection）
+建立users（做为存储用户信息的collection）
 
-建立admin（做为存储管理员信息的collection）
+建立admins（做为存储管理员信息的collection）
 
-建立bookbuymessage（做为存储书本购买信息的collection）
+建立buys（做为存储书本购买信息的collection）
 
 ## node链接到MongoDB（使用mongoose）
 
@@ -97,17 +93,13 @@ next函数主要负责将控制权交给下一个中间件，如果当前中间�
 
 next函数主要是用来确保所有注册的中间件被一个接一个的执行
 
-但如果我们定义的中间件终结了本次请求，那就不应该再调用next函数，否则就可能会出问题，我们来看段代码：https://blog.csdn.net/weixin_44311876/article/details/89920317
-
 当前面的请求被回复之后，没有next的话还是会执行除了回应之外的代码。res.json最后调用的是res.send返回
 
 ### ejs渲染
 
-怎么说呢，我第一次接触到一直不知道这个ejs渲染了html跟没渲染的有差别吗，后来我才明白了ejs的用途
-
 ejs是node的后端与html的前端之间的桥梁
 
-当然使用的时候要用app.set设置一些东西（这些等下次我把作业传回来再说）
+当然使用的时候要用app.set设置一些东西
 
 如：
 
@@ -203,4 +195,6 @@ app.get('/book', (req, res, next) => {
 ## 
 
 
+
+# 开发日志
 

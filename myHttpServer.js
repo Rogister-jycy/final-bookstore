@@ -2,6 +2,14 @@ const http = require('http')
 const fs = require('fs');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://172.21.2.236:27017/190110910408')//写学号
+
+const Buyschema = {
+    bookname: String,
+    price:String,
+    message:String,
+    kind:String
+};
+const Buy = mongoose.model('buy',Buyschema);
 const Userschema = {
     email: String,
     password:String
@@ -16,7 +24,7 @@ const Bookschema = {
 };
 const Book = mongoose.model('book',Bookschema);
 const boss = new Admin({email:"boss",password:"123456"});
-boss.save()
+boss.save();
 const querystring = require('querystring')
 const express = require('express')
 const app = express()
@@ -159,7 +167,7 @@ var buybook = '';
 app.get('/book', (req, res, next) => {
     console.log(req.query.book)
     buybook = req.query.book
-    insertDB.myinsert('190110910408', 'bookbuymessage', [{ name: buybook }]);
+    insertDB.myinsert('190110910408', 'buys', [{ bookname: buybook,price:"50",message:"Study",kind:"计算机" }]);
     res.render(__dirname + "/bookStore/bookstore.ejs")
 })
 ///////////////////-----------------/////////////////////////////////////
@@ -169,7 +177,7 @@ app.get('/back',(req, res, next) => {
 ////////////////----------------购物车查询模块------------------------//////////
 
 app.get('/car', (req, res, next) => {
-    Book.find({},(err,datas)=>{
+    Buy.find({},(err,datas)=>{
         if(err) return console.log(err);
         res.render(__dirname + "/bookStore/bookstore3.ejs",{
             searchresult:datas
