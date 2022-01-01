@@ -115,28 +115,6 @@ app.get('/search', (req, res, next) => {
         })
 
     })
-    // Book.find(wherestr, function(err, res){
-    //     if (err) {
-    //         console.log("Error:" + err);
-    //     }
-    //     else {
-    //         x = res;
-    //         console.log("Res:" + res);
-    //         ejs.renderFile(__dirname + "/bookStore/bookstore4.ejs",{searchresult:"哈哈哈"})
-    //     }
-    // })
-
-    // insertDB.myfind('190110910408', 'books', { name: book }, (docs) => {
-    //     if (docs.length == 0) {
-
-    //         res.render(__dirname + "/bookStore/bookstore3.ejs")
-    //     }
-    //     else {
-    //         res.render(__dirname + "/bookStore/bookstore4.ejs")
-    //     }
-    // })
-
-
 })
 
 
