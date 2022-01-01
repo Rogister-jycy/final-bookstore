@@ -39,9 +39,6 @@ var email = '';
 var password = '';
 var submit = '';
 doc = {};
-
-
-
 app.get('/input', (req, res, next) => {
     console.log(req.query.password)
     console.log(req.query.email)
@@ -183,7 +180,7 @@ app.get('/car', (req, res, next) => {
             searchresult:datas
         })
 
-        
+
     })
 })
 ///////////////////-----------------/////////////////////////////////////
