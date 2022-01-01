@@ -1,10 +1,4 @@
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://172.21.2.236:27017/190110910408');
 
-// const Userschema = {
-//     name: String,
-//     pwd: String
-// }
 exports.myinsert = (dbName, mycollection, insertData) => {
   const MongoClient = require('mongodb').MongoClient;
   const assert = require('assert');
