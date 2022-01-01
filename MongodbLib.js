@@ -10,9 +10,7 @@ exports.myinsert = (dbName, mycollection, insertData) => {
 
     const db = client.db(dbName);
 
-    // Get the documents collection
     const collection = db.collection(mycollection);
-    // Insert some documents
     collection.insertMany(insertData, function (err, result) {
 
       if (err) console.log('Inserte fail!')
